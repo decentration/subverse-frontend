@@ -36,3 +36,74 @@
     transform: rotate(360deg);
   }
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #333;
+  color: #fff;
+}
+
+.logo {
+  font-size: 1.5rem;
+}
+
+.account-dropdown {
+  /* Add your custom styles for the account dropdown */
+}
+
+.register-button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  position: relative;
+  max-width: 80%;
+  width: 600px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.register-button:hover {
+  background-color: #0056b3;
+}
+
+.account-select {
+  width: 250px; /* Adjust the width as needed */
+  padding: 5px;
+  margin-right: 10px;
+
+  /* Add any other styles you need */
+}
