@@ -42,12 +42,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #333;
+  background-color: rgb(255, 255, 255);
   color: #fff;
 }
 
 .logo {
   font-size: 1.5rem;
+  color: rgb(29, 29, 29);
 }
 
 .account-dropdown {
@@ -55,11 +56,11 @@
 }
 
 .register-button {
-  background-color: #007bff;
+  background-color: #562CFF;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 1rem 2rem;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -106,4 +107,14 @@
   margin-right: 10px;
 
   /* Add any other styles you need */
+}
+
+.subby-style {
+  font-family: Unbounded, sans-serif;
+  font-style: bold;
+}
+
+h2 {
+  font-family: Unbounded, sans-serif;
+  font-style: semi-bold;
 }

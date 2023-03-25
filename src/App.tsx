@@ -22,6 +22,7 @@ const App = () => {
   const [selectedAccount, setSelectedAccount] = useState<InjectedAccountWithMeta | null>(null);
   const [isMembershipDetailsOpen, setIsMembershipDetailsOpen] = useState(false);
   const [isUserDetailsOpen, setIsUserDetailsOpen] = useState(false);
+  
 
   const handleAccountSelected = (selectedAccount: InjectedAccountWithMeta) => {
     setSelectedAccount(selectedAccount);
@@ -62,7 +63,9 @@ const App = () => {
           <MembershipDetails account={selectedAccount} />
         </Modal>
         <Modal isOpen={isUserDetailsOpen} onClose={handleCloseUserDetailsModal}>
+          <RegistrationForm onAccountSelected={handleAccountSelected} />
           <UserDetails account={selectedAccount} />
+          
           
         </Modal>
         </Router>

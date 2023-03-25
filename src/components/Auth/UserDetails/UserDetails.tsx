@@ -141,18 +141,14 @@ interface UserDetailsProps {
 
       return (
         <div>
-          <h2>User Details</h2>
+          
       
           {account ? (
             <>
+            <h2>User Details</h2>
               <p>Address: {account.address}</p>
               <p>Name: {account.meta.name}</p>
-            </>
-          ) : (
-            <p>Loading account data...</p>
-          )}
-      
-          <label>
+              <label>
             <input
               type="checkbox"
               checked={agreeTerms}
@@ -163,8 +159,14 @@ interface UserDetailsProps {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {transactionStatus === 'pending' && <p>Please wait...</p>}
           {transactionSuccess && transactionStatus === 'success' && <p>Success</p>}
-      
+          <br></br>
           <button onClick={signAndVerify}>Confirm</button>
+            </>
+          ) : (
+            <p></p>
+          )}
+      
+         
       
           {registrationStatus === 'success' && (
             <p>User registered successfully</p>

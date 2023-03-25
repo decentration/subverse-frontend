@@ -103,16 +103,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onAccountSelected }
 
   return (
     <form  onSubmit={handleSubmit}>
-      <select value={selectedAccount?.address || ''} onChange={handleAccountChange}>
-        <option value="">Select an account</option>
-        {accounts.map((account) => (
-          <option key={account.address} value={account.address}>
-            {account.meta.name} ({account.address})
-          </option>
-        ))}
-      </select>
+      <select className="account-select" value={selectedAccount?.address || ''} onChange={handleAccountChange}>
+            <option value="">Select account</option>
+            {accounts.map((account) => (
+             <option key={account.address} value={account.address}>
+             {account.meta.name} ({account.address.slice(0, 5)}...{account.address.slice(-5)})
+                </option>
+            ))}
+        </select>
       <button type="submit" disabled={infoMessage !== ''}>
-  {infoMessage !== '' ? infoMessage : 'Register'}
+  {infoMessage !== '' ? infoMessage : 'Select'}
 </button>
     </form>
   );

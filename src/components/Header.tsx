@@ -40,18 +40,18 @@ interface HeaderProps {
       };
 
     return (
-    <header className="header">
+    <header className="header subby-style">
     <div className="logo">Subby</div>
       <div className="signup-area">
-      <select className="account-select" value={selectedAccount?.address || ''} onChange={handleAccountChange}>
+      {/* <select className="account-select" value={selectedAccount?.address || ''} onChange={handleAccountChange}>
             <option value="">Select account</option>
             {accounts.map((account) => (
              <option key={account.address} value={account.address}>
              {account.meta.name} ({account.address.slice(0, 5)}...{account.address.slice(-5)})
                 </option>
             ))}
-        </select>
-      <button className="register-button" onClick={handleOpenUserDetails}>Sign Up</button>
+        </select> */}
+      <button className="register-button subby-style" onClick={handleOpenUserDetails}>Connect</button>
       </div>
     </header>
   );
