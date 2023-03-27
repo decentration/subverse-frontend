@@ -14,7 +14,7 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { AccountProvider } from './AccountContext';
 import Header from './components/Header';
 import Modal from './components/Modal';
-
+import AuthSwitcher from './components/Auth/AuthSwitcher/AuthSwitcher';
 
 const App = () => {
   const [api, setApi] = useState<ApiPromise | null>(null);
@@ -22,7 +22,7 @@ const App = () => {
   const [selectedAccount, setSelectedAccount] = useState<InjectedAccountWithMeta | null>(null);
   const [isMembershipDetailsOpen, setIsMembershipDetailsOpen] = useState(false);
   const [isUserDetailsOpen, setIsUserDetailsOpen] = useState(false);
-  
+  const [mode, setMode] = useState<'login' | 'signup'>('signup');
 
   const handleAccountSelected = (selectedAccount: InjectedAccountWithMeta) => {
     setSelectedAccount(selectedAccount);
@@ -63,8 +63,9 @@ const App = () => {
           <MembershipDetails account={selectedAccount} />
         </Modal>
         <Modal isOpen={isUserDetailsOpen} onClose={handleCloseUserDetailsModal}>
+          <AuthSwitcher mode={mode} setMode={setMode} />
           <RegistrationForm onAccountSelected={handleAccountSelected} />
-          <UserDetails account={selectedAccount} />
+          <UserDetails account={selectedAccount} mode={mode} setMode={setMode} />
           
           
         </Modal>

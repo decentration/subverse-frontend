@@ -1,36 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { SignerPayloadRaw } from '@polkadot/types/types';
+import { stringToU8a, stringToHex } from '@polkadot/util';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta, } from '@polkadot/extension-inject/types';
 import { useAccountContext } from '../../../AccountContext';
 import { useProxyCall } from '../../../hooks/useProxyCall';
-import Modal from '../../Modal';
 import { useSignMessage } from '../../../hooks/useSignMessage';
-import { SignerPayloadRaw } from '@polkadot/types/types';
-import { stringToU8a, stringToHex } from '@polkadot/util';
+import DetailsInput from '../../DetailsInput';
+import AuthSwitcher from '../AuthSwitcher/AuthSwitcher';
+import AuthForm from '../AuthForm/AuthForm';
+import { encodeAddress } from '@polkadot/util-crypto';
+
+
 // import AuthenticatedData from './AuthenticatedData';
 
 
 
 interface UserDetailsProps {
     account: InjectedAccountWithMeta | null;
+    mode: 'login' | 'signup';
+    setMode: (mode: 'login' | 'signup') => void;
   }
   
-  const UserDetails: React.FC<UserDetailsProps> = ({ account }) => {
+  const UserDetails: React.FC<UserDetailsProps> = ({ account, mode, setMode }) => {
     const [agreeTerms, setAgreeTerms] = useState(false);
     const navigate = useNavigate();
     const [errorThisMessage, setErrorMessage] = useState<string | null>(null);
     const { signature, error, signMessage, messageToSign } = useSignMessage();
     const [transactionStatus, setTransactionStatus] = useState<'idle' | 'pending' | 'success'>('idle');
     const [registrationStatus, setRegistrationStatus] = useState('');
+    const [inputDisabled, setInputDisabled] = useState(true);
+    const [name, setName] = useState(account?.meta.name ?? null);
+
     const { addProxyCall, errorMessage, transactionSuccess } = useProxyCall(account, () => {
       navigate('/authorize-payment', { state: { account } });
     });
   
+    const toggleInputDisabled = () => {
+      setInputDisabled(!inputDisabled);
+    };
+
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setAgreeTerms(e.target.checked);
     };
+
+    // Update the state when the name input changes
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+    };
+
+    const isLoginMode = mode === 'login';
+    const isSignupMode = mode === 'signup';
+
+    useEffect(() => {
+      if (account) {
+        setName(account.meta.name ?? '');
+      }
+    }, [account]);
   
     const registerUser = async (address: string, name: string, signature: string) => {
         try {
@@ -63,7 +92,38 @@ interface UserDetailsProps {
           setRegistrationStatus('networkError');
         }
       };
+      const loginUser = async (address: string, signature: string) => {
+        try {
+          const response = await fetch('http://localhost:3001/api/login-user', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ address, signature }),
+          });
       
+          const data = await response.json();
+          if (response.status === 200) {
+            localStorage.setItem('token', data.token);
+            console.log(data.message);
+            setRegistrationStatus('loggedIn');
+          } else {
+            if (response.status === 404) {
+              console.error(data.error);
+              setRegistrationStatus('userNotFound');
+            } else {
+              console.error(data.error);
+              setRegistrationStatus('loginError');
+            }
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          setRegistrationStatus('networkError');
+        }
+      };
+      
+      
+    
       
   
     const signAndVerify = async () => {
@@ -117,7 +177,7 @@ interface UserDetailsProps {
           return;
         }
       
-        if (!agreeTerms) {
+        if (mode === 'signup' && !agreeTerms) {
           setErrorMessage('You must agree to the terms and conditions');
           return;
         }
@@ -126,8 +186,13 @@ interface UserDetailsProps {
           .then((signed) => {
             // Check if the signature is available
             if (signed && signed.signature) {
+              // Call the loginUser or registerUser function depending on the mode
+              if (mode === 'login') {
+                loginUser(account.address, signed.signature);
+              } else {
               // Call the registerUser function with the signature, user's name, and account.address
-              return registerUser(account.address, account.meta.name ?? 'Unnamed Account', signed.signature);
+               registerUser(account.address, account.meta.name ?? 'Unnamed Account', signed.signature);
+              } 
             } else {
               setErrorMessage('Error signing message');
             }
@@ -137,33 +202,54 @@ interface UserDetailsProps {
           });
       };
       
-    
+ 
 
       return (
-        <div>
-          
+        <>
       
           {account ? (
-            <>
+            <div>
             <h2>User Details</h2>
-              <p>Address: {account.address}</p>
-              <p>Name: {account.meta.name}</p>
-              <label>
-            <input
-              type="checkbox"
-              checked={agreeTerms}
-              onChange={handleCheckboxChange}
-            />
-            I agree to the terms and conditions
-          </label>
+            <div className="flex flex-col items-start">
+              <DetailsInput
+                label="Address:"
+                value={account.address}
+                disabled={true}
+              />
+              <DetailsInput
+                label="Username:"
+                value={name}
+                disabled={inputDisabled}
+                onChange={handleNameChange}
+                />
+             <button
+                className="text-blue-500 underline focus:outline-none"
+                onClick={toggleInputDisabled}
+             >
+              
+              {inputDisabled ? 'Change' : 'Save'}
+            </button>
+          </div>
+          <br></br>
+             
+              {mode === 'signup' && (
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={handleCheckboxChange}
+                  />
+                  I agree to the terms and conditions
+                </label>
+              )}
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {transactionStatus === 'pending' && <p>Please wait...</p>}
           {transactionSuccess && transactionStatus === 'success' && <p>Success</p>}
           <br></br>
-          <button onClick={signAndVerify}>Confirm</button>
-            </>
-          ) : (
-            <p></p>
+          <AuthForm account={account} mode={mode} onConfirm={handleConfirm} />
+
+          </div>
+          ) : ( ''
           )}
       
          
@@ -181,7 +267,7 @@ interface UserDetailsProps {
             <p>Network error. Please try again later.</p>
           )}
           {/* <AuthenticatedData /> */}
-        </div>
+        </>
       );
       
 };
