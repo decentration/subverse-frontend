@@ -1,0 +1,65 @@
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 180px; 
+    height: 100%;
+    background-color: #ffffff;
+  }
+  
+  .sidebar-container section {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-container a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 5px;
+    font-family: "Avenir","Open Sans", sans-serif;
+    width: 115px;
+  }
+  
+  .sidebar-container a:hover {
+    background-color: #e2e2e2;
+
+  }
+ 
+  .sidebar-container a .fa-icon {
+    margin-right: 5px;
+  }
+
+  .area {
+    font-size: small;
+    color: rgb(118, 118, 118);
+    font-weight: 500;
+    margin-bottom: 5px
+  }
+  
+  .sidebar-button {
+    border: none;
+    border-radius: 7px;
+    color: #fff;
+    padding: 0.5rem 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  
+
+  .active-link {
+
+  }
+
+.active-link {
+    border-radius: 7px;
+
+    -moz-box-shadow: inset -5px 0px 5px rgb(205, 205, 205);
+    -webkit-box-shadow: inset -5px 0px 5px rgb(205, 205, 205);
+    box-shadow: inset -5px 0px 5px rgb(205, 205, 205);
+  }
+
+  .sidebar-button:hover {
+
+  }

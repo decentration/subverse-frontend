@@ -5,11 +5,11 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import RegistrationForm from './components/RegistrationForm';
 import PaymentAuthorization from './components/PaymentAuthorization';
-import HomePage from './HomePage';
+import Dashboard from './components/Dashboard/Dashboard';
 import { ApiPromiseContext } from './contexts/ApiPromiseContext';
 import MembershipDetails from './components/MembershipDetails';
 import UserDetails from './components/Auth/UserDetails/UserDetails';
-
+import Sidebar from './components/Sidebar';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { AccountProvider } from './AccountContext';
 import Header from './components/Header';
@@ -44,35 +44,39 @@ const App = () => {
   return (
     <ApiPromiseContext.Provider value={{ api, setApi }}>
       <AccountProvider>
-        
-      <Header
-        openUserDetails={setIsUserDetailsOpen}
-        selectedAccount={selectedAccount}
-        setSelectedAccount={setSelectedAccount}
-      />
         <Router>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route
-            path="/register"
-            element={<RegistrationForm onAccountSelected={handleAccountSelected} />}
-          />
-            <Route path="/authorize-payment" element={<PaymentAuthorization account={account} />} />
-          </Routes>
+        <div className="app-container">
+          <div className="header-container">
+            <Header
+              openUserDetails={setIsUserDetailsOpen}
+              selectedAccount={selectedAccount}
+              setSelectedAccount={setSelectedAccount}
+            />
+          </div>
+          <div className="sidebar-container">
+              <Sidebar />
+          </div>
+          <div className="main-content">
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/register" element={<RegistrationForm onAccountSelected={handleAccountSelected} />} />
+                <Route path="/authorize-payment" element={<PaymentAuthorization account={account} />} />
+              </Routes>
+            </div>
+          </div>
           <Modal isOpen={isMembershipDetailsOpen} onClose={handleCloseMembershipDetailsModal}>
-          <MembershipDetails account={selectedAccount} />
-        </Modal>
-        <Modal isOpen={isUserDetailsOpen} onClose={handleCloseUserDetailsModal}>
-          <AuthSwitcher mode={mode} setMode={setMode} />
-          <RegistrationForm onAccountSelected={handleAccountSelected} />
-          <UserDetails account={selectedAccount} mode={mode} setMode={setMode} />
-          
-          
-        </Modal>
+            <MembershipDetails account={selectedAccount} />
+          </Modal>
+          <Modal isOpen={isUserDetailsOpen} onClose={handleCloseUserDetailsModal}>
+            <AuthSwitcher mode={mode} setMode={setMode} />
+            <RegistrationForm onAccountSelected={handleAccountSelected} />
+            <UserDetails account={selectedAccount} mode={mode} setMode={setMode} />
+          </Modal>
         </Router>
       </AccountProvider>
     </ApiPromiseContext.Provider>
   );
 };
+
 
 export default App;

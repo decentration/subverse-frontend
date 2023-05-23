@@ -49,20 +49,23 @@
 .logo {
   font-size: 1.5rem;
   color: rgb(29, 29, 29);
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 
 .account-dropdown {
   /* Add your custom styles for the account dropdown */
 }
 
-.register-button {
-  background-color: #562CFF;
+.accounts-button {
+  background-color: #000;
   border: none;
-  border-radius: 25px;
+  border-radius: 35px;
   color: #fff;
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-weight: 500;
 }
 
 
@@ -109,7 +112,7 @@
   /* Add any other styles you need */
 }
 
-.subby-style {
+.subverse-style {
   font-family: Unbounded, sans-serif;
   font-style: bold;
 }
@@ -149,4 +152,37 @@ h2 {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.app-container {
+  display: grid;
+  
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 60px 1fr auto;
+  height: 100vh; /* Ensure the container takes up the full height of the viewport */
+}
+
+.header-container {
+  grid-area: header;
+  grid-column-start: 1;
+  grid-column-end: 3; /* Extend to cover both columns */
+  grid-row-start: 1;
+}
+
+.sidebar-container {
+  grid-area: sidebar;
+  grid-column-start: 1;
+  grid-column-end: 2; /* Set the column range for the sidebar */
+  grid-row-start: 2;
+  max-width: 200px;
+}
+
+.main-content {
+  grid-area: content;
+  grid-column-start: 2;
+  grid-row-start: 2;
+  padding: 20px;
+  box-sizing: border-box; 
+  border-top: 1px solid rgb(216, 216, 216); 
+
 }

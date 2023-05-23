@@ -29,11 +29,16 @@ interface UserDetailsProps {
     const [agreeTerms, setAgreeTerms] = useState(false);
     const navigate = useNavigate();
     const [errorThisMessage, setErrorMessage] = useState<string | null>(null);
-    const { signature, error, signMessage, messageToSign } = useSignMessage();
+    const { error, signMessage, messageToSign } = useSignMessage();
     const [transactionStatus, setTransactionStatus] = useState<'idle' | 'pending' | 'success'>('idle');
     const [registrationStatus, setRegistrationStatus] = useState('');
     const [inputDisabled, setInputDisabled] = useState(true);
     const [name, setName] = useState(account?.meta.name ?? null);
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const [address, setAddress] = useState<string | null>(null);
+    const [signature, setSignature] = useState<string | null>(null);
+    
+
 
     const { addProxyCall, errorMessage, transactionSuccess } = useProxyCall(account, () => {
       navigate('/authorize-payment', { state: { account } });
@@ -51,6 +56,28 @@ interface UserDetailsProps {
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
     };
+
+    const handleLogin = async () => {
+      
+        if (!address || !signature) {
+          setLoginError('Please make sure the address and signature are provided.');
+          return;
+        }
+        try {
+        const response = await loginUser(address, signature);
+    
+        if (response.error) {
+          setLoginError(response.error);
+        } else {
+          // Update the user state or perform any other action after a successful login.
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        setLoginError('An error occurred during login');
+      }
+    };
+    
+    
 
     const isLoginMode = mode === 'login';
     const isSignupMode = mode === 'signup';
@@ -76,23 +103,25 @@ interface UserDetailsProps {
             localStorage.setItem('token', data.token);
             // User registration was successful
             console.log(data.message);
-            setRegistrationStatus('success');
+            setRegistrationStatus('loggedIn');
           } else {
-            // Handle error messages
-            if (response.status === 409) {
+            if (response.status === 404) {
               console.error(data.error);
-              setRegistrationStatus('userExists');
+              setRegistrationStatus('userNotFound');
+              return { error: 'User not found' };
             } else {
               console.error(data.error);
-              setRegistrationStatus('error');
+              setRegistrationStatus('loginError');
+              return { error: data.error };
             }
           }
         } catch (error) {
           console.error('Error:', error);
           setRegistrationStatus('networkError');
+          return { error: 'Network error' };
         }
       };
-      const loginUser = async (address: string, signature: string) => {
+      const loginUser = async (address: string, signature: string): Promise<{ data?: any; error?: string }> => {
         try {
           const response = await fetch('http://localhost:3001/api/login-user', {
             method: 'POST',
@@ -107,20 +136,25 @@ interface UserDetailsProps {
             localStorage.setItem('token', data.token);
             console.log(data.message);
             setRegistrationStatus('loggedIn');
+            return { data };
           } else {
             if (response.status === 404) {
               console.error(data.error);
               setRegistrationStatus('userNotFound');
+              return { error: 'User not found' };
             } else {
               console.error(data.error);
               setRegistrationStatus('loginError');
+              return { error: 'An error occurred during login' };
             }
           }
         } catch (error) {
           console.error('Error:', error);
           setRegistrationStatus('networkError');
+          return { error: 'An error occurred during login' };
         }
       };
+      
       
       
     
@@ -252,7 +286,7 @@ interface UserDetailsProps {
           ) : ( ''
           )}
       
-         
+          { loginError && ( <p className="error-message"> {loginError} </p>)}
       
           {registrationStatus === 'success' && (
             <p>User registered successfully</p>

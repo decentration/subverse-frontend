@@ -3,6 +3,8 @@ import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { useState, useEffect } from 'react';
 import { ChainSelector, Chain } from './ChainSelector/ChainSelector';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faWallet } from '@fortawesome/free-solid-svg-icons'
 
 
 interface HeaderProps {
@@ -48,17 +50,9 @@ interface HeaderProps {
       </div>
 
       </div>
-    <div className="logo">Subby</div>
-      <div className="signup-area">
-      {/* <select className="account-select" value={selectedAccount?.address || ''} onChange={handleAccountChange}>
-            <option value="">Select account</option>
-            {accounts.map((account) => (
-             <option key={account.address} value={account.address}>
-             {account.meta.name} ({account.address.slice(0, 5)}...{account.address.slice(-5)})
-                </option>
-            ))}
-        </select> */}
-      <button className="register-button subby-style" onClick={handleOpenUserDetails}>Connect</button>
+    <div className="logo subverse-style">Organisations</div>
+      <div className="accounts-area">
+      <button className="accounts-button subverse-style" onClick={handleOpenUserDetails}><FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />  Accounts</button>
       </div>
     </header>
   );
