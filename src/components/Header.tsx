@@ -21,7 +21,7 @@ interface HeaderProps {
     useEffect(() => {
         const fetchAccounts = async () => {
           try {
-            await web3Enable('Subby');
+            await web3Enable('Subverse');
             const allAccounts = await web3Accounts();
             setAccounts(allAccounts);
           } catch (error) {
@@ -50,7 +50,7 @@ interface HeaderProps {
       </div>
 
       </div>
-    <div className="logo subverse-style">Organisations</div>
+    <div className="logo subverse-style">Supersig</div>
       <div className="accounts-area">
       <button className="accounts-button subverse-style" onClick={handleOpenUserDetails}><FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />  Accounts</button>
       </div>

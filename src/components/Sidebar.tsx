@@ -20,9 +20,10 @@ const Sidebar = () => {
 
       <section>
       <div className='area'>Wallet</div>
-        <Link className={isActive('/wallet/accounts') ? 'active-link sidebar-button' : 'sidebar-button'} to="/wallet/accounts">
-          <FontAwesomeIcon icon={faWallet} style={{ marginRight: '7px', minWidth: '20px' }} /> Accounts
-        </Link>
+      <Link className={isActive('/wallet/accounts') ? 'active-link sidebar-button' : 'sidebar-button'} to="/wallet/accounts">
+        <FontAwesomeIcon icon={faWallet} style={{ marginRight: '7px', minWidth: '20px' }} /> Accounts
+      </Link>
+
       </section>
 
       <section>

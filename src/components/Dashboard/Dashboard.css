@@ -56,23 +56,3 @@ h1 {
     margin-top: 15px;
     font-size: small;
   }
-
-  .table-main {
-    width: 100%;
-  }
-
-  .table-head {
-    text-align: left;
-    color:rgb(202, 202, 202);
-    font-size: small;
-
-  }
-
-  tbody {
-    margin: 5px;
-    padding: 100px;
-  }
-
-  td {
-    padding-bottom:10px;
-  }

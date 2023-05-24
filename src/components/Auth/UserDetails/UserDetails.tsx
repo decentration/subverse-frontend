@@ -6,7 +6,7 @@ import { SignerPayloadRaw } from '@polkadot/types/types';
 import { stringToU8a, stringToHex } from '@polkadot/util';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta, } from '@polkadot/extension-inject/types';
-import { useAccountContext } from '../../../AccountContext';
+import { useAccountContext } from '../../../contexts/AccountsContext';
 import { useProxyCall } from '../../../hooks/useProxyCall';
 import { useSignMessage } from '../../../hooks/useSignMessage';
 import DetailsInput from '../../DetailsInput';

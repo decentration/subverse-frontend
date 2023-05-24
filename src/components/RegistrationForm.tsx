@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { SignerPayloadRaw } from '@polkadot/types/types';
 import { useNavigate } from 'react-router-dom';
-import { useAccountContext } from '../AccountContext';
+import { AccountsContext } from '../contexts/AccountsContext';
 import { u8aToHex, stringToU8a } from "@polkadot/util";
 import { useSignMessage } from '../hooks/useSignMessage';
 
@@ -17,31 +17,12 @@ interface RegistrationFormProps {
   }
   
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ onAccountSelected }) => {
-    const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<InjectedAccountWithMeta | null>(null);
   const { signature, error, signMessage, messageToSign } = useSignMessage();
   const [infoMessage, setInfoMessage] = useState('');
   const navigate = useNavigate();
-  const { setAccount } = useAccountContext();
+  const { accounts } = useContext(AccountsContext);
 
-  useEffect(() => {
-    const fetchAccounts = async () => {
-      try {
-        const extensions = await web3Enable('my cool dapp');
-        if (extensions.length === 0) {
-          console.error('No extension installed or user did not accept the authorization');
-          return;
-        }
-  
-        const fetchedAccounts = await web3Accounts();
-        setAccounts(fetchedAccounts);
-      } catch (error) {
-        console.error('Error fetching accounts:', error);
-      }
-    };
-  
-    fetchAccounts();
-  }, []);
   
   const registerUser = async (signature: string, message: string, address: string) => {
     try {

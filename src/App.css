@@ -51,6 +51,8 @@
   color: rgb(29, 29, 29);
   letter-spacing: 1px;
   font-weight: bold;
+  align-items: left;
+
 }
 
 .account-dropdown {
@@ -185,4 +187,24 @@ h2 {
   box-sizing: border-box; 
   border-top: 1px solid rgb(216, 216, 216); 
 
+}
+
+.table-main {
+  width: 100%;
+}
+
+.table-head {
+  text-align: left;
+  color:rgb(202, 202, 202);
+  font-size: small;
+
+}
+
+tbody {
+  margin: 5px;
+  padding: 100px;
+}
+
+td {
+  padding-bottom:10px;
 }

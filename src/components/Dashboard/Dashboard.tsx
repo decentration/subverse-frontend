@@ -1,6 +1,9 @@
-import React from 'react';
-import Table from './Table'
+import React, { useContext } from 'react';
+import Table from './Table';
+import { ChainContext } from '../../contexts/ChainContext';
 import './Dashboard.css';
+import '../../App.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,6 +26,7 @@ const DashboardButton: React.FC<{ icon: string; label: string }> = ({ icon, labe
 );
 
 const Dashboard: React.FC = () => {
+  const { selectedChain } = useContext(ChainContext); 
   const sigCnt = 10;
   const totalProposals = 5;
   const totalBalance = 1000;
