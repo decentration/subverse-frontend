@@ -11,9 +11,12 @@ interface HeaderProps {
     openUserDetails: (isOpen: boolean) => void;
     selectedAccount: InjectedAccountWithMeta | null;
     setSelectedAccount: (account: InjectedAccountWithMeta | null) => void;
+    selectedRpc: string;
+    setSelectedRpc: (rpc: string) => void;
+    
   }
 
-  const Header: React.FC<HeaderProps> = ({ openUserDetails, selectedAccount, setSelectedAccount }) => {
+  const Header: React.FC<HeaderProps> = ({ openUserDetails, selectedAccount, setSelectedAccount, selectedRpc, setSelectedRpc }) => {
     const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
     const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
     const [open, setOpen] = useState(false);
@@ -45,10 +48,9 @@ interface HeaderProps {
     return (
     <header className="header subby-style">
       <div className="relative inline-block text-left">
-      <div className="chain-selector-container">
-        <ChainSelector selectedChain={selectedChain} setSelectedChain={setSelectedChain} />
-      </div>
-
+        <div className="chain-selector-container">
+        <ChainSelector selectedChain={selectedChain} setSelectedChain={setSelectedChain} selectedRpc={selectedRpc} setSelectedRpc={setSelectedRpc} />
+        </div>  
       </div>
     <div className="logo subverse-style">Supersig</div>
       <div className="accounts-area">

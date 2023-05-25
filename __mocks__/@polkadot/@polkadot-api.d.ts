@@ -2,6 +2,10 @@
 
 declare module '@polkadot/api' {
     export class ApiPromise {
+      query: any;
+      isReady: any;
+      registry: any;
+      on: any;
       static create(options: { provider: any }): Promise<ApiPromise>;
       rpc: any;
       consts: any;
@@ -9,6 +13,9 @@ declare module '@polkadot/api' {
     }
   
     export class WsProvider {
+      isConnected() {
+        throw new Error('Method not implemented.');
+      }
       constructor(endpoint: string);
     }
   

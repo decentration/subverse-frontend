@@ -1,5 +1,7 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { Chain } from '../components/ChainSelector/ChainSelector';
+import { chains }  from '../components/ChainSelector/chains';
+
 
 interface ChainContextProps {
   selectedChain: Chain | null;
@@ -17,7 +19,8 @@ export const ChainContext = createContext<ChainContextProps>({
 
 export const ChainProvider: React.FC = ({ children }) => {
   const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
-  const [selectedRpc, setSelectedRpc] = useState<string>('wss://soupcan1.jelliedowl.com'); // <-- Set default here
+  const [selectedRpc, setSelectedRpc] = useState<string>('wss://soupcan1.jelliedowl.com');
+
 
   return (
     <ChainContext.Provider value={{ selectedChain, setSelectedChain, selectedRpc, setSelectedRpc }}>

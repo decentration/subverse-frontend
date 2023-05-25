@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ApiPromise } from '@polkadot/api';
+import React, { useState, useEffect } from 'react';
+import { ApiPromise, WsProvider } from '@polkadot/api';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -28,7 +28,9 @@ const App = () => {
   const [isUserDetailsOpen, setIsUserDetailsOpen] = useState(false);
   const [mode, setMode] = useState<'login' | 'signup'>('signup');
   const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
-  const [selectedRpc, setSelectedRpc] = useState<string>('');
+  const [selectedRpc, setSelectedRpc] = useState<string>('wss://soupcan1.jelliedowl.com');
+  const [decimals, setDecimals] = useState<number | null>(null);
+
 
   const handleAccountSelected = (selectedAccount: InjectedAccountWithMeta) => {
     setSelectedAccount(selectedAccount);
@@ -47,6 +49,64 @@ const App = () => {
   const handleCloseUserDetailsModal = () => {
     setIsUserDetailsOpen(false);
   };
+
+  
+
+useEffect(() => {
+  let subscription: any = null;
+  
+  const initPolkadotAPI = async () => {
+    if (!selectedRpc) {
+      return;
+    }
+
+    const rpcUrl = selectedRpc;
+
+    // Disconnect from the old endpoint before connecting to the new one
+    api?.disconnect();
+
+    try {
+      const provider = new WsProvider(rpcUrl);
+      const newApi = await ApiPromise.create({ provider });
+      
+      // If the above line did not throw an error, then the connection was successful
+      const latestBlockNumber = await newApi.rpc.chain.getHeader();
+      console.log('Latest block number:', latestBlockNumber.number.toNumber());
+
+      const chainInfo = await newApi.registry.getChainProperties();
+      console.log(chainInfo);
+
+      const decimals = chainInfo.tokenDecimals[0]?.toNumber();
+      setDecimals(decimals);
+
+      setApi(newApi);
+
+      // Subscribe to disconnect events and cleanup the API instance.
+      subscription = newApi.on('disconnected', () => {
+        console.log(`Disconnected from ${selectedRpc}`);
+        newApi.disconnect();
+        setApi(null);
+      });
+    } catch (error) {
+      console.error('Failed to create Polkadot API:', error);
+      setApi(null); // Clear the API instance in case of error
+      setError(`Failed to connect to ${selectedRpc}. Please check the connection or choose another chain.`);
+    }
+  };
+
+  initPolkadotAPI();
+
+  return () => {
+    if (typeof subscription?.unsubscribe === 'function') {
+      subscription.unsubscribe();
+    }
+    api?.disconnect();
+  };
+}, [selectedRpc]);
+
+  
+  
+
   return (
       <ChainContext.Provider value={{ 
         selectedChain, 
@@ -54,7 +114,7 @@ const App = () => {
         selectedRpc,
         setSelectedRpc
       }}>      
-      <ApiPromiseContext.Provider value={{ api, setApi }}>
+    <ApiPromiseContext.Provider value={{ api, decimals, setApi, setDecimals }}>
         <AccountsProvider>
           <Router>
           <div className="app-container">
@@ -63,6 +123,8 @@ const App = () => {
                 openUserDetails={setIsUserDetailsOpen}
                 selectedAccount={selectedAccount}
                 setSelectedAccount={setSelectedAccount}
+                selectedRpc={selectedRpc}
+                setSelectedRpc={setSelectedRpc}
               />
             </div>
             <div className="sidebar-container">
@@ -95,3 +157,7 @@ const App = () => {
 
 
 export default App;
+
+function setError(arg0: string) {
+  throw new Error('Function not implemented.');
+}
