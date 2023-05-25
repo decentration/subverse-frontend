@@ -6,9 +6,8 @@ import '../../App.css'
 import { OverrideBundleDefinition } from '@polkadot/types/types';
 import customTypes from 'supersig-types';
 
-
 export interface Chain {
-  rpc(rpc: any): unknown;
+  // rpc(rpc: any): unknown;
   name: string;
   ss58Format: number;
   rpcEndpoints: string[];
@@ -27,7 +26,14 @@ interface ChainSelectorProps {
 export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, setSelectedChain, selectedRpc, setSelectedRpc }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  
+  const [tempRpc, setTempRpc] = useState<string>(selectedRpc);  // New state for temporary RPC URL
+
+   // Whenever selectedChain is updated, update the tempRpc state
+   useEffect(() => {
+    if (selectedChain) {
+      setTempRpc(selectedChain.rpcEndpoints[0]);
+    }
+  }, [selectedChain]);
 
 //   const handleRpcSelection = () => {
 //     console.log("Selected RPC: ", selectedRpc);
@@ -35,8 +41,8 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
 
   const handleRpcSelection = async (rpc: string | null = null) => {
     console.log("handleRpcSelection called");
-    const rpcEndpoint = rpc || selectedRpc;
-  
+    const rpcEndpoint = rpc || tempRpc; // use tempRpc here
+
     if (!rpcEndpoint) return;
 
     console.log("RPC Endpoint:", rpcEndpoint); // Add this line to log the rpcEndpoint
@@ -79,6 +85,9 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
     } catch (error) {
       console.error('Error fetching chain data:', error);
     }
+
+    setSelectedRpc(rpcEndpoint);  // This updates the actual RPC URL
+
   };
   
   
@@ -127,28 +136,28 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
                     /> */}
 
                   <input
-                    key={`${chain.name}-${rpc}`}
-                    type="radio"
-                    className="mr-2"
-                    value={rpc}
-                    checked={rpc === selectedRpc}
-                    onChange={(e) => setSelectedRpc(e.target.value)}
-                  />
+                      key={`${chain.name}-${rpc}`}
+                      type="radio"
+                      className="mr-2"
+                      value={rpc}
+                      checked={rpc === tempRpc}  // use tempRpc here
+                      onChange={(e) => setTempRpc(e.target.value)}  // update tempRpc here
+                    />
 
                     <label htmlFor={`chain${chain.ss58Format}`} className="ml-2 text-black">
                       {rpc}
                     </label>
                   </div>
                 ))}
-                    <button
-                      onClick={() => {
-                        handleRpcSelection(selectedRpc);
-                        setOpen(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-black"
-                    >
-                      Select {chain.name}
-                    </button>
+                     <button
+                        onClick={() => {
+                          handleRpcSelection(tempRpc);  // use tempRpc here
+                          setOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-black"
+                      >
+                        Select {chain.name}
+                      </button>
 
                   </div>
                 </details>

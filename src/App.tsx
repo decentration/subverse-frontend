@@ -125,6 +125,8 @@ useEffect(() => {
                 setSelectedAccount={setSelectedAccount}
                 selectedRpc={selectedRpc}
                 setSelectedRpc={setSelectedRpc}
+                selectedChain={selectedChain} 
+                setSelectedChain={setSelectedChain}
               />
             </div>
             <div className="sidebar-container">
