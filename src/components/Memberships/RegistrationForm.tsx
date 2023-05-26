@@ -3,9 +3,9 @@ import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-da
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { SignerPayloadRaw } from '@polkadot/types/types';
 import { useNavigate } from 'react-router-dom';
-import { AccountsContext } from '../contexts/AccountsContext';
+import { AccountsContext } from '../../contexts/AccountsContext';
 import { u8aToHex, stringToU8a } from "@polkadot/util";
-import { useSignMessage } from '../hooks/useSignMessage';
+import { useSignMessage } from '../../hooks/useSignMessage';
 
 
 

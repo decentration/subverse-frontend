@@ -3,21 +3,22 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import RegistrationForm from './components/RegistrationForm';
-import PaymentAuthorization from './components/PaymentAuthorization';
+import RegistrationForm from './components/Memberships/RegistrationForm';
+import PaymentAuthorization from './components/Memberships/PaymentAuthorization';
 import Dashboard from './components/Dashboard/Dashboard';
 import { ApiPromiseContext } from './contexts/ApiPromiseContext';
-import MembershipDetails from './components/MembershipDetails';
+import MembershipDetails from './components/Memberships/MembershipDetails';
 import UserDetails from './components/Auth/UserDetails/UserDetails';
 import Sidebar from './components/Sidebar';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { AccountsProvider } from './contexts/AccountsContext';
 import Header from './components/Header';
-import Modal from './components/Modal';
+import Modal from './components/Memberships/Modal';
 import AuthSwitcher from './components/Auth/AuthSwitcher/AuthSwitcher';
 import Accounts from './components/Accounts/Accounts';
 import { ChainContext } from './contexts/ChainContext'; // 
 import { Chain } from './components/ChainSelector/ChainSelector';
+import Settings from './components/Settings';
 
 
 const App = () => {
@@ -136,6 +137,7 @@ useEffect(() => {
                 <Routes>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/wallet/accounts" element={<Accounts />} />
+                  <Route path="/settings" element={<Settings />} />
                   <Route path="/register" element={<RegistrationForm onAccountSelected={handleAccountSelected} />} />
                   <Route path="/authorize-payment" element={<PaymentAuthorization account={account} />} />
                 </Routes>

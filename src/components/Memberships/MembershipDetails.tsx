@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import { useAccountContext } from '../contexts/AccountsContext';
-import { useProxyCall } from '../hooks/useProxyCall';
+import { useAccountContext } from '../../contexts/AccountsContext';
+import { useProxyCall } from '../../hooks/useProxyCall';
 import Modal from './Modal';
 
 

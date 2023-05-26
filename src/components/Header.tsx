@@ -68,7 +68,7 @@ interface HeaderProps {
       </div>
     <div className="logo subverse-style">Supersig</div>
       <div className="accounts-area">
-      <button className="accounts-button subverse-style" onClick={handleOpenUserDetails}><FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />  Accounts</button>
+      <button className="accounts-button subverse-style" onClick={handleOpenUserDetails}><FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />  Memberships</button>
       </div>
     </header>
   );

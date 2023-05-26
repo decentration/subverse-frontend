@@ -548,7 +548,7 @@ export default React.memo(styled(Address)`
       }
 
       .send-button {
-        min-width: 6.5rem;
+        min-width: 6.rem;
       }
     }
   }

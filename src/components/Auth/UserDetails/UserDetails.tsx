@@ -9,7 +9,7 @@ import { InjectedAccountWithMeta, } from '@polkadot/extension-inject/types';
 import { useAccountContext } from '../../../contexts/AccountsContext';
 import { useProxyCall } from '../../../hooks/useProxyCall';
 import { useSignMessage } from '../../../hooks/useSignMessage';
-import DetailsInput from '../../DetailsInput';
+import DetailsInput from '../../Memberships/DetailsInput';
 import AuthSwitcher from '../AuthSwitcher/AuthSwitcher';
 import AuthForm from '../AuthForm/AuthForm';
 import { encodeAddress } from '@polkadot/util-crypto';

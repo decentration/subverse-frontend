@@ -6,6 +6,10 @@ declare module '@polkadot/api' {
       isReady: any;
       registry: any;
       on: any;
+        runtimeModules: any;
+      isConnected: any;
+      runtimeVersion: any;
+      runtime: any;
       static create(options: { provider: any }): Promise<ApiPromise>;
       rpc: any;
       consts: any;

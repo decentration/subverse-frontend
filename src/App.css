@@ -1,5 +1,7 @@
-
-
+/* 
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities'; */
 
 .App {
   text-align: center;
@@ -71,6 +73,7 @@
   cursor: pointer;
   transition: background-color 0.2s;
   font-weight: 500;
+
 }
 
 
@@ -210,4 +213,19 @@ tbody {
 
 td {
   padding-bottom:10px;
+}
+
+h1 {
+  font-size: 2rem; 
+  font-weight: bold;
+  color: rgb(23, 23, 23);
+  margin-bottom: 1rem;
+  font-family: Unbounded, 'Open Sans', Avenir, Helvetica, system-ui, sans-serif;
+}
+
+h2 {
+  font-size: 1.5rem;  /* 30px */
+  font-weight: bold;
+  color: rgb(21, 21, 21);
+  margin-bottom: 0.75rem;
 }

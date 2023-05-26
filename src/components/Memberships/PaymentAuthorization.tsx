@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
-import { ApiPromiseContext } from '../contexts/ApiPromiseContext';
+import { ApiPromiseContext } from '../../contexts/ApiPromiseContext';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import { addDelayedProxy, announceProxy } from '../utils/polkadot';
+import { addDelayedProxy, announceProxy } from '../../utils/polkadot';
 import { useParams } from 'react-router-dom';
 
 interface PaymentAuthorizationProps {

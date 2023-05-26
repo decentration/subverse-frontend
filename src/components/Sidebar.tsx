@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faFileAlt, faCode, faWallet } from '@fortawesome/free-solid-svg-icons';
-import './Sidebar.css';  // Import your css file for styles
+import { faPlus, faFileAlt, faCode, faWallet, faCog } from '@fortawesome/free-solid-svg-icons';
+import './Sidebar.css'; 
+
+
 
 const Sidebar = () => {
     const location = useLocation();
 
-    const isActive = (pathname) => {
+    const isActive = (pathname: string) => {
       return location.pathname === pathname;
     };
   return (
@@ -36,6 +38,13 @@ const Sidebar = () => {
         </Link>
         <Link className={isActive('/organisations/decode') ? 'active-link sidebar-button' : 'sidebar-button'} to="/organisations/decode">
           <FontAwesomeIcon icon={faCode} style={{ marginRight: '7px', minWidth: '20px' }}/> Decode
+        </Link>
+      </section>
+
+      <section>
+        <div className='area'>Settings</div>
+        <Link className={isActive('/settings') ? 'active-link sidebar-button' : 'sidebar-button'} to="/settings">
+          <FontAwesomeIcon icon={faCog} style={{ marginRight: '7px', minWidth: '20px' }} /> Settings
         </Link>
       </section>
 

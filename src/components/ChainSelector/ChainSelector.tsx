@@ -57,7 +57,7 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
       const { ss58Format } = api.consts.system;
   
       // Find the corresponding chain object in the chains array
-      const chain = chains.find((chain) => chain.rpcEndpoints.includes(rpc));
+      const chain = chains.find((chain) => chain.rpcEndpoints);
   
       if (!chain) {
         console.error('No matching chain found for the selected RPC.');
@@ -115,7 +115,7 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
          {selectedChain?.name  || 'Select Network'}
       </button>
       {open && (
-        <div className="absolute bg-white rounded mt-2 shadow-md text-black">
+        <div className="absolute bg-white rounded shadow-md text-black">
           {chains.map((chain, index) => (
             <details key={index}>
               <summary className="font-semibold text-black text-sm">{chain.name}</summary>
@@ -154,7 +154,7 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
                           handleRpcSelection(tempRpc);  // use tempRpc here
                           setOpen(false);
                         }}
-                        className="block w-full text-left px-4 py-2 text-black"
+                        className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
                       >
                         Select {chain.name}
                       </button>

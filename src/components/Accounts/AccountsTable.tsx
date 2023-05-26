@@ -4,14 +4,19 @@ import { ChainContext } from '../../contexts/ChainContext';
 import { ApiPromiseContext } from '../../contexts/ApiPromiseContext';
 import { BN } from '@polkadot/util';
 import { chains } from '../ChainSelector/chains';
+import './Accounts.css';
 
 
+interface AccountsTableProps {
+  showEmptyBalances: boolean;
+}
 interface TableRowProps {
     name: string;
     balance: string;
     address: string;
 }
 
+// In your TableRow component, replace the Tailwind classes with your new CSS classes
 const TableRow: React.FC<TableRowProps> = ({ name, address, balance }) => {
   const balanceParts = balance.split('.');
   const integral = balanceParts[0];
@@ -19,12 +24,12 @@ const TableRow: React.FC<TableRowProps> = ({ name, address, balance }) => {
   const zeroBalance = balance.startsWith("0.0000");
   return (
     <tr>
-      <td className="p-2 border-b border-gray-200 text-black">
+      <td className="account-cell">
         {name}
-        <div className="text-xs text-gray-500">{address}</div>
+        <div className="account-address">{address}</div>
       </td>
-      <td className={`px-6 py-4 whitespace-nowrap text-sm ${zeroBalance ? "text-gray-400" : "text-gray-500"}`}>
-        {integral}.<span className="text-gray-400">{decimal}</span>
+      <td className={`account-balance ${zeroBalance ? "account-balance-zero" : "account-balance-normal"}`}>
+        {integral}.<span className="account-balance-decimal">{decimal}</span>
       </td>
     </tr>
   );
@@ -32,8 +37,9 @@ const TableRow: React.FC<TableRowProps> = ({ name, address, balance }) => {
 
 
 
-const AccountsTable: React.FC = () => {
-    const { api } = useContext(ApiPromiseContext);
+
+const AccountsTable: React.FC<AccountsTableProps> = ({ showEmptyBalances }) => {
+  const { api } = useContext(ApiPromiseContext);
     const { accounts } = useContext(AccountsContext);
     const { selectedChain } = useContext(ChainContext);
     const decimals = selectedChain?.decimals ?? 0; 
@@ -117,6 +123,7 @@ const AccountsTable: React.FC = () => {
     const addressStyle = { fontSize: "small", color: "grey" };
     
     return (
+      <div>
       <table className="table-main">
           <thead className="table-head">
               <tr>
@@ -125,20 +132,25 @@ const AccountsTable: React.FC = () => {
               </tr>
           </thead>
           <tbody>
-              {accounts.map((account, index) => {
-                  // Log the balance that is being rendered
-                  console.log('Rendering balance for account:', balances.get(account.address));
-                  return (
-                      <TableRow
-                          key={index}
-                          name={account.meta.name}
-                          address={account.address}
-                          balance={balances.get(account.address) || 'Loading...'}
-                      />
-                  )
-              })}
-          </tbody>
+        {accounts.filter(account => {
+          const balance = balances.get(account.address);
+          if (!showEmptyBalances && balance === '0.000000000000') {
+            return false;
+          }
+          return true;
+        }).map((account, index) => {
+          return (
+            <TableRow
+              key={index}
+              name={account.meta.name}
+              address={account.address}
+              balance={balances.get(account.address) || 'Loading...'}
+            />
+          )
+        })}
+      </tbody>
       </table>
+      </div>
   );
 };
 export default AccountsTable;
