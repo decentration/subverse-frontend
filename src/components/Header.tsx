@@ -8,20 +8,32 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons'
 
 
 interface HeaderProps {
-    openUserDetails: (isOpen: boolean) => void;
-    selectedAccount: InjectedAccountWithMeta | null;
-    setSelectedAccount: (account: InjectedAccountWithMeta | null) => void;
+  openUserDetails: (isOpen: boolean) => void;
+  selectedAccount: InjectedAccountWithMeta | null;
+  setSelectedAccount: (account: InjectedAccountWithMeta | null) => void;
+  selectedRpc: string;
+  setSelectedRpc: (rpc: string) => void;
+  selectedChain: Chain | null;
+  setSelectedChain: (chain: Chain | null) => void;
+    
   }
 
-  const Header: React.FC<HeaderProps> = ({ openUserDetails, selectedAccount, setSelectedAccount }) => {
+  const Header: React.FC<HeaderProps> = ({ 
+    openUserDetails, 
+    selectedAccount, 
+    setSelectedAccount, 
+    selectedRpc, 
+    setSelectedRpc, 
+    selectedChain, 
+    setSelectedChain 
+   }) => {
     const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-    const [selectedChain, setSelectedChain] = useState<Chain | null>(null);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const fetchAccounts = async () => {
           try {
-            await web3Enable('Subby');
+            await web3Enable('Subverse');
             const allAccounts = await web3Accounts();
             setAccounts(allAccounts);
           } catch (error) {
@@ -45,12 +57,16 @@ interface HeaderProps {
     return (
     <header className="header subby-style">
       <div className="relative inline-block text-left">
-      <div className="chain-selector-container">
-        <ChainSelector selectedChain={selectedChain} setSelectedChain={setSelectedChain} />
+        <div className="chain-selector-container">
+        <ChainSelector 
+          selectedChain={selectedChain} 
+          setSelectedChain={setSelectedChain} 
+          selectedRpc={selectedRpc} 
+          setSelectedRpc={setSelectedRpc} 
+        />        
+      </div>  
       </div>
-
-      </div>
-    <div className="logo subverse-style">Organisations</div>
+    <div className="logo subverse-style">Supersig</div>
       <div className="accounts-area">
       <button className="accounts-button subverse-style" onClick={handleOpenUserDetails}><FontAwesomeIcon icon={faWallet} style={{ marginRight: '10px' }} />  Accounts</button>
       </div>

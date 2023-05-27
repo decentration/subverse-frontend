@@ -6,7 +6,7 @@ import { SignerPayloadRaw } from '@polkadot/types/types';
 import { stringToU8a, stringToHex } from '@polkadot/util';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta, } from '@polkadot/extension-inject/types';
-import { useAccountContext } from '../../../AccountContext';
+// import { useAccountContext } from '../../../contexts/AccountsContext';
 import { useProxyCall } from '../../../hooks/useProxyCall';
 import { useSignMessage } from '../../../hooks/useSignMessage';
 import DetailsInput from '../../DetailsInput';
@@ -168,10 +168,10 @@ interface UserDetailsProps {
   
       try {
         const injector = await web3FromSource(account.meta.source);
-  
+        
         const message = 'Please sign this message to verify your identity.';
         if (injector && 'signer' in injector && injector.signer) {
-          const signedMessage = await injector.signer?.signRaw({
+          const signedMessage: any = await injector.signer?.signRaw({
             address: account.address,
             data: stringToHex(message),
             type: 'bytes',
@@ -185,7 +185,7 @@ interface UserDetailsProps {
             body: JSON.stringify({
               address: account.address,
               message,
-              signature: signedMessage.signature,
+              signature: signedMessage?.signature,
             }),
           });
   

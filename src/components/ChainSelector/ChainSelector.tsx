@@ -3,33 +3,56 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import { chains } from './chains';
 import { chains as mockChains } from './chains';
 import '../../App.css'
+import { OverrideBundleDefinition } from '@polkadot/types/types';
+import customTypes from 'supersig-types';
 
 export interface Chain {
+  // rpc(rpc: any): unknown;
   name: string;
   ss58Format: number;
   rpcEndpoints: string[];
+  definitions: OverrideBundleDefinition;
+  decimals: number; 
+
 }
 
 interface ChainSelectorProps {
   selectedChain: Chain | null;
   setSelectedChain: (chain: Chain | null) => void;
+  selectedRpc: string;
+  setSelectedRpc: (rpc: string) => void;
 }
 
-export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, setSelectedChain }) => {
-  const [selectedRpc, setSelectedRpc] = useState<string>('');
+export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, setSelectedChain, selectedRpc, setSelectedRpc }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const [tempRpc, setTempRpc] = useState<string>(selectedRpc);  // New state for temporary RPC URL
 
+   // Whenever selectedChain is updated, update the tempRpc state
+   useEffect(() => {
+    if (selectedChain) {
+      setTempRpc(selectedChain.rpcEndpoints[0]);
+    }
+  }, [selectedChain]);
+
+//   const handleRpcSelection = () => {
+//     console.log("Selected RPC: ", selectedRpc);
+// };
 
   const handleRpcSelection = async (rpc: string | null = null) => {
-    const rpcEndpoint = rpc || selectedRpc;
-  
+    console.log("handleRpcSelection called");
+    const rpcEndpoint = rpc || tempRpc; // use tempRpc here
+
     if (!rpcEndpoint) return;
+
+    console.log("RPC Endpoint:", rpcEndpoint); // Add this line to log the rpcEndpoint
   
     try {
       // Set custom autoconnect delay to 5 seconds (5000 ms)
       const provider = new WsProvider(rpc, 5000);
-      const api = await ApiPromise.create({ provider });
+      const api = await ApiPromise.create({ 
+        provider, 
+      });
       const chainResult = await api.rpc.system.chain();
       const { ss58Format } = api.consts.system;
   
@@ -51,13 +74,23 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
         ...chain,
         name: chainName,
         ss58Format: parsedSs58Format,
+        definitions: chain.definitions, 
+        decimals: chain.decimals,
+
       });
   
+      setSelectedRpc(rpcEndpoint);
+
       api.disconnect();
     } catch (error) {
       console.error('Error fetching chain data:', error);
     }
+
+    setSelectedRpc(rpcEndpoint);  // This updates the actual RPC URL
+
   };
+  
+  
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -89,13 +122,26 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
               <div>
                 {chain.rpcEndpoints.map((rpc, rpcIndex) => (
                   <div key={`${chain.name}-${rpc}`} className="flex items-center">
-                    <input
+                    {/* <input
                       key={`${chain.name}-${rpc}`}
                       type="radio"
                       className="mr-2"
                       value={rpc}
                       checked={rpc === selectedRpc}
-                      onChange={() => setSelectedRpc(rpc)}
+                      
+                      onChange={() => {
+                        console.log("Selected RPC:", rpc); 
+                        setSelectedRpc(rpc)
+                      }}
+                    /> */}
+
+                  <input
+                      key={`${chain.name}-${rpc}`}
+                      type="radio"
+                      className="mr-2"
+                      value={rpc}
+                      checked={rpc === tempRpc}  // use tempRpc here
+                      onChange={(e) => setTempRpc(e.target.value)}  // update tempRpc here
                     />
 
                     <label htmlFor={`chain${chain.ss58Format}`} className="ml-2 text-black">
@@ -103,15 +149,16 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
                     </label>
                   </div>
                 ))}
-                    <button
-                      onClick={() => {
-                        handleRpcSelection();
-                        setOpen(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-black"
-                    >
-                      Select {chain.name}
-                    </button>
+                     <button
+                        onClick={() => {
+                          handleRpcSelection(tempRpc);  // use tempRpc here
+                          setOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-black"
+                      >
+                        Select {chain.name}
+                      </button>
+
                   </div>
                 </details>
               ))}

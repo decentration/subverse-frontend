@@ -15,7 +15,7 @@ import { encodeAddress } from '@polkadot/util-crypto';
 import { largeNumSum } from './util';
 // import { useTranslation } from '../translate';
 import Summary from './Summary';
-import Address from './Table';
+import Address from './TableApps';
 import { useLoadingDelay } from './useLoadingDelay';
 
 type SortedAddress = { address: string; isFavorite: boolean };
@@ -133,12 +133,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       style={{ overflow: 'auto' }}
     >
 
-      {isCreateOpen && (
+      {/* {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
           onStatusChange={onStatusChange}
         />
-      )}
+      )} */}
       <StyledDiv>
         <SummaryBox className='header-box'>
           <Summary

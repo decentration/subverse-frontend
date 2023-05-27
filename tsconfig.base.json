@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "composite": false,
+        "lib": ["ES2021", "DOM"],
+        "jsx": "react",
+        "resolveJsonModule": true,
+        "paths": {
+            "@polkadot/apps-config": ["apps-config/src"],
+            "@polkadot/apps-config/*": ["apps-config/src/*"],
+            "@polkadot/react-hooks": ["react-hooks/src"],
+            "@polkadot/react-hooks/*": ["react-hooks/src/*"],
+            "@polkadot/react-api": ["react-api/src"],
+            "@polkadot/react-api/*": ["react-api/src/*"],
+            "@polkadot/react-signer": ["react-signer/src"],
+            "@polkadot/react-signer/*": ["react-signer/src/*"],
+            "@polkadot/react-components": ["react-components/src"],
+            "@polkadot/react-components/*": ["react-components/src/*"],
+        },
+        "skipLibCheck": true,
+        "target": "es2020"
+    }
+}

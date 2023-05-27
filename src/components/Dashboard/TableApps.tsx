@@ -1,16 +1,16 @@
 import type { FetchListProposals, MembersList, ProposalState } from 'supersig-types/dist/interfaces/default';
 import type { DeriveBalancesAll } from '@polkadot/api-derive/types';
 import type { ActionStatus } from '@polkadot/react-components/Status/types';
-// import type { ThemeProps } from '@polkadot/react-components/types';
+import type { ThemeProps } from '@polkadot/react-components/types';
 import type { AccountId, Call } from '@polkadot/types/interfaces';
 import type { KeyringAddress } from '@polkadot/ui-keyring/types';
 
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 
-import { AddressInfo, AddressSmall, Button, Call as CallDisplay, ChainLock, Expander, Forget, Icon, IconLink, Input, InputAddress, InputBalance, Menu, Popup } from '@polkadot/react-components';
+import { AddressInfo, AddressSmall, Button, Call as CallDisplay, ChainLock, ExpandButton, Expander, ExpanderScroll, Forget, Icon, IconLink, Input, InputAddress, InputBalance, LinkExternal, Menu, Popup, Tags } from '@polkadot/react-components';
 import IdentityIcon from '@polkadot/react-components/IdentityIcon';
-import { useApi, useCall, useToggle } from '@polkadot/react-hooks';
+import { useApi, useCall, useToggle, useDeriveAccountInfo , useBalancesAll} from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
 import { keyring } from '@polkadot/ui-keyring';
 import { BN_ZERO, formatNumber, isFunction, u8aToHex } from '@polkadot/util';
@@ -409,13 +409,13 @@ function Address ({ address, className = '', filter, isFavorite, toggleFavorite 
                   onForget={_onForget}
                 />
               )}
-              {isTransferOpen && (
+              {/* {isTransferOpen && (
                 <Transfer
                   key='modal-transfer'
                   onClose={_toggleTransfer}
                   recipientId={address}
                 />
-              )}
+              )} */}
             </>
           )}
         </td>
