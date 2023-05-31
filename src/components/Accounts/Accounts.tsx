@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { ChainContext } from '../../contexts/ChainContext';
 import AccountsTable from './AccountsTable';
+import '../Dashboard/Dashboard.css'
+import './Accounts.css'
 
 const Accounts: React.FC = () => {
   const { selectedChain } = useContext(ChainContext);
@@ -10,27 +12,25 @@ const Accounts: React.FC = () => {
     setShowEmptyBalances(!showEmptyBalances);
   };
 
+  const Summary: React.FC<{ title: string; value: any }> = ({ title, value }) => (
+    <div className="summary-item">
+      <h3>{title}</h3>
+      <p>{value}</p>
+    </div>
+  );
+
   return (
-    <div>
+   
+    <div className='accounts-general'>
       <h1>Accounts</h1>
       {selectedChain && (
-        <table>
-          <thead>
-            <tr>
-              <th>Chain Name</th>
-              <th>Chain Decimals</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{selectedChain.name}</td>
-              <td>{selectedChain.decimals}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="summary-section">
+        <Summary title="Chain Name" value={selectedChain.name} />
+        <Summary title="Chain Decimals" value={selectedChain.decimals} />
+        </div>
       )}
 
-      <div>
+      <div className='empty-balance-input'>
         <input 
           type="checkbox" 
           checked={showEmptyBalances} 
@@ -41,6 +41,7 @@ const Accounts: React.FC = () => {
 
       <AccountsTable showEmptyBalances={showEmptyBalances} />
     </div>
+    
   );
 };
 

@@ -1,0 +1,66 @@
+
+
+.chain-select-button {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    background-color: #f8f9fa;
+    margin-bottom: 10px;
+    width: 100px; /* Adjust as needed */
+    display: block; /* Centers the button text */
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.chains {
+    position: absolute;
+    z-index: 999;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    width: 250px; /* Adjust as needed */
+    font-family: Avenir, Mulish, Inter, Avenir, Mulish, Inter, Arial, Helvetica, sans-serif;
+    color: rgb(66, 66, 66);
+}
+
+.chains details {
+    padding: 5px;
+}
+
+.absolute details summary {
+    margin-bottom: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.chains details div {
+    /* margin-left: 10px; */
+}
+
+.chains button {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 0px;
+    width: 100%;
+    text-align: center;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    margin-top:10px;
+}
+
+.chains button:hover {
+    background-color: #e9ecef;
+}
+
+.chain-rpc {
+    width: 100%;
+}
+
+.rpc-name {
+    font-size: 12px;
+    color: black;
+
+}

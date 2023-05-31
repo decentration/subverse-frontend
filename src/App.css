@@ -148,6 +148,7 @@ h2 {
   transition: background-color 0.2s;
   font-family: Unbounded, sans-serif;
   font-weight:500;
+  margin-bottom: 5px;
 }
 
 .chain-selector-container {
@@ -160,6 +161,8 @@ h2 {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  min-width: 150px
 }
 
 .app-container {
@@ -220,7 +223,7 @@ h1 {
   font-weight: bold;
   color: rgb(23, 23, 23);
   margin-bottom: 1rem;
-  font-family: Unbounded, 'Open Sans', Avenir, Helvetica, system-ui, sans-serif;
+  font-family: Unbounded, 'Open Sans', Avenir, Mulish, Inter, Helvetica, system-ui, sans-serif;
 }
 
 h2 {

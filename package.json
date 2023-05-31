@@ -1,11 +1,15 @@
 {
-  "name": "subby-frontend",
+  "name": "subverse-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.3",
     "@polkadot/api": "^10.1.4",
     "@polkadot/api-augment": "^9.14.2",
     "@polkadot/api-base": "^9.14.2",
@@ -47,6 +51,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "reactstrap": "^9.1.10",
     "styled-components": "^5.3.1",
     "supersig-types": "^0.1.7",
     "web-vitals": "^2.1.4"

@@ -14,8 +14,8 @@
   .account-cell {
     display: flex;
     flex-direction: column;
-    font-size: 0.875rem;
-    color: black;
+    font-size: 1rem;
+    color: rgb(39, 39, 39);
   }
   
   .account-address {
@@ -24,7 +24,7 @@
   }
   
   .account-balance {
-    font-size: 0.875rem;
+    font-size:1.2rem;
   }
   
   .account-balance-zero {
@@ -32,7 +32,7 @@
   }
   
   .account-balance-normal {
-    color: rgba(107, 114, 128);
+    color: rgb(38, 38, 38);
   }
   
   .account-balance-decimal {
@@ -44,4 +44,12 @@
     background: rgb(235, 235, 235);
     
     border-radius:30px;
+}
+
+.accounts-general {
+  font-family: Avenir, Mulish, Inter, Avenir, Mulish, Inter, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif !important;
+}
+
+.empty-balance-input {
+  margin: 10px 0 10px 0;
 }

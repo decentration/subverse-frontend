@@ -1,54 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faFileAlt, faCode, faWallet, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faFileAlt, faCode, faWallet, faCog, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { List, ListItem, ListItemIcon, ListItemText, Collapse, Box } from '@mui/material';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import './Sidebar.css'; 
 
-
-
 const Sidebar = () => {
-    const location = useLocation();
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
 
-    const isActive = (pathname: string) => {
-      return location.pathname === pathname;
-    };
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
+  const isActive = (pathname: string) => {
+    return location.pathname === pathname;
+  };
+
   return (
     <div className="sidebar-container">
-      <section>
-        <Link className={isActive('/dashboard') ? 'active-link sidebar-button' : 'sidebar-button'} to="/dashboard">
-          <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '7px', minWidth: '20px' }} /> Dashboard
-        </Link>
-      </section>
+      <List>
+        <ListItem button onClick={handleClick}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon={faUsers} style={{ marginRight: '5px' }} />
+          </ListItemIcon>
+          <ListItemText primary="Supersig" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding style={{ paddingLeft: '1.5em' }}>  
+            <ListItem button className={isActive('/organisations/dashboard') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/organisations/dashboard">
+              <ListItemIcon>
+                <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} /> 
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+            <ListItem button className='sidebar-button' component={Link} to="/organisations/create">
+              <ListItemIcon>
+                <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} />
+              </ListItemIcon>
+              <ListItemText primary="Create" />
+            </ListItem>
+            <ListItem button className='sidebar-button' component={Link} to="/organisations/create">
+              <ListItemIcon>
+                <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} />
+              </ListItemIcon>
+              <ListItemText primary="Propose" />
+            </ListItem>
+            <ListItem button className={isActive('/organisations/decode') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/organisations/decode">
+              <ListItemIcon>
+                <FontAwesomeIcon icon={faCode} style={{ marginRight: '5px' }} />
+              </ListItemIcon>
+              <ListItemText primary="Decode" />
+            </ListItem>
+          </List>
+        </Collapse>
+        
+        <ListItem button className={isActive('/wallet/accounts') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/wallet/accounts">
+          <ListItemIcon>
+            <FontAwesomeIcon icon={faWallet} style={{ marginRight: '5px' }} />
+          </ListItemIcon>
+          <ListItemText primary="Accounts" />
+        </ListItem>
 
-      <section>
-      <div className='area'>Wallet</div>
-      <Link className={isActive('/wallet/accounts') ? 'active-link sidebar-button' : 'sidebar-button'} to="/wallet/accounts">
-        <FontAwesomeIcon icon={faWallet} style={{ marginRight: '7px', minWidth: '20px' }} /> Accounts
-      </Link>
-
-      </section>
-
-      <section>
-        <div className='area'>Orgs</div>
-        <Link className='sidebar-button' to="/organisations/create">
-          <div><FontAwesomeIcon icon={faPlus} style={{ marginRight: '7px', minWidth: '20px' }} /></div> Create
-        </Link>
-        <Link className='sidebar-button' to="/organisations/create">
-          <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '7px', minWidth: '20px' }} /> Propose
-        </Link>
-        <Link className={isActive('/organisations/decode') ? 'active-link sidebar-button' : 'sidebar-button'} to="/organisations/decode">
-          <FontAwesomeIcon icon={faCode} style={{ marginRight: '7px', minWidth: '20px' }}/> Decode
-        </Link>
-      </section>
-
-      <section>
-        <div className='area'>Settings</div>
-        <Link className={isActive('/settings') ? 'active-link sidebar-button' : 'sidebar-button'} to="/settings">
-          <FontAwesomeIcon icon={faCog} style={{ marginRight: '7px', minWidth: '20px' }} /> Settings
-        </Link>
-      </section>
-
-      
+        <ListItem button className={isActive('/settings') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/settings">
+          <ListItemIcon>
+            <FontAwesomeIcon icon={faCog} style={{ marginRight: '5px' }} />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItem>
+      </List>
     </div>
   );
 };

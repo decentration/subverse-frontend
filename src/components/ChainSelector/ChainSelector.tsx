@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { chains } from './chains';
 import { chains as mockChains } from './chains';
-import '../../App.css'
+import '../../App.css';
+import './ChainSelector.css'; 
 import { OverrideBundleDefinition } from '@polkadot/types/types';
 import customTypes from 'supersig-types';
 
@@ -27,11 +28,14 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [tempRpc, setTempRpc] = useState<string>(selectedRpc);  // New state for temporary RPC URL
+  const [selectedChainName, setSelectedChainName] = useState<string>(''); // New state for selected chain name
+
 
    // Whenever selectedChain is updated, update the tempRpc state
    useEffect(() => {
     if (selectedChain) {
       setTempRpc(selectedChain.rpcEndpoints[0]);
+      setSelectedChainName(selectedChain.name);
     }
   }, [selectedChain]);
 
@@ -115,57 +119,50 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
          {selectedChain?.name  || 'Select Network'}
       </button>
       {open && (
-        <div className="absolute bg-white rounded shadow-md text-black">
+        <div className="chains absolute bg-white rounded shadow-md text-black">
           {chains.map((chain, index) => (
             <details key={index}>
               <summary className="font-semibold text-black text-sm">{chain.name}</summary>
               <div>
                 {chain.rpcEndpoints.map((rpc, rpcIndex) => (
-                  <div key={`${chain.name}-${rpc}`} className="flex items-center">
-                    {/* <input
-                      key={`${chain.name}-${rpc}`}
-                      type="radio"
-                      className="mr-2"
-                      value={rpc}
-                      checked={rpc === selectedRpc}
-                      
-                      onChange={() => {
-                        console.log("Selected RPC:", rpc); 
-                        setSelectedRpc(rpc)
-                      }}
-                    /> */}
-
+                  <div key={`${chain.name}-${rpc}`} className="chain-rpc flex items-center">
                   <input
                       key={`${chain.name}-${rpc}`}
                       type="radio"
                       className="mr-2"
                       value={rpc}
-                      checked={rpc === tempRpc}  // use tempRpc here
-                      onChange={(e) => setTempRpc(e.target.value)}  // update tempRpc here
+                      checked={rpc === tempRpc} 
+                      onChange={(e) => {
+
+                      setTempRpc(e.target.value);
+                      setSelectedChainName(chain.name);
+                      }}
+                   
+                    
                     />
 
-                    <label htmlFor={`chain${chain.ss58Format}`} className="ml-2 text-black">
+                    <label htmlFor={`chain${chain.ss58Format}`} className="rpc-name ml-2 text-black">
                       {rpc}
                     </label>
                   </div>
                 ))}
-                     <button
-                        onClick={() => {
-                          handleRpcSelection(tempRpc);  // use tempRpc here
-                          setOpen(false);
-                        }}
-                        className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
-                      >
-                        Select {chain.name}
-                      </button>
-
-                  </div>
-                </details>
-              ))}
-            </div>
-          )}
+              </div>
+            </details>
+          ))}
+          <button
+            onClick={() => {
+              handleRpcSelection(tempRpc);  
+              setOpen(false);
+            }}
+            className="select-button block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
+          >
+            Select {selectedChainName}         
+          </button>
         </div>
-      );
+      )}
+    </div>
+  );
+
     };
 
 

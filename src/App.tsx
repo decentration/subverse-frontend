@@ -135,7 +135,7 @@ useEffect(() => {
             </div>
             <div className="main-content">
                 <Routes>
-                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/organisations/dashboard" element={<Dashboard />} />
                   <Route path="/wallet/accounts" element={<Accounts />} />
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/register" element={<RegistrationForm onAccountSelected={handleAccountSelected} />} />
