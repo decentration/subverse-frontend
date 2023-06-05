@@ -1,0 +1,30 @@
+// __mocks__/@polkadot-api.d.ts
+
+declare module '@polkadot/api' {
+    export class ApiPromise {
+      query: any;
+      isReady: any;
+      registry: any;
+      on: any;
+      runtimeModules: any;
+      isConnected: any;
+      runtimeVersion: any;
+      runtime: any;
+      static create(options: { provider: any, rpc?:any, types?: any }): Promise<ApiPromise>;
+      rpc: any;
+      consts: any;
+      derive: any;
+      disconnect(): void;
+    }
+  
+    export class WsProvider {
+      isConnected() {
+        throw new Error('Method not implemented.');
+      }
+      constructor(endpoint: string);
+    }
+  
+    export const mockRpcSystemChain: jest.Mock;
+    export const mockRpcSystemSs58Format: jest.Mock;
+  }
+  

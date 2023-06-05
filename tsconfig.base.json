@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "composite": false,
+        "lib": ["es2021", "dom"],
+        "jsx": "react",
+        "resolveJsonModule": true,
+            "paths": {
+                
+                "@polkadot/react-components": ["packages/react-components/src"],
+                "@polkadot/react-components/*": ["packages/react-components/src/*"],
+                "@polkadot/react-signer": ["packages/react-signer/src"],
+                "@polkadot/react-signer/*": ["packages/react-signer/src/*"],
+            },
+        "skipLibCheck": true,
+        "target": "es2020"
+    }
+}
+     
+  

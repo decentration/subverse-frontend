@@ -1,0 +1,55 @@
+/* Accounts.css */
+
+.account-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .account-cell {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    color: rgb(39, 39, 39);
+  }
+  
+  .account-address {
+    font-size: 0.75rem;
+    color: rgba(107, 114, 128);
+  }
+  
+  .account-balance {
+    font-size:1.2rem;
+  }
+  
+  .account-balance-zero {
+    color: rgba(156, 163, 175);
+  }
+  
+  .account-balance-normal {
+    color: rgb(38, 38, 38);
+  }
+  
+  .account-balance-decimal {
+    color: rgba(156, 163, 175);
+  }
+  
+
+.table-row {
+    background: rgb(235, 235, 235);
+    
+    border-radius:30px;
+}
+
+.accounts-general {
+  font-family: Avenir, Mulish, Inter, Avenir, Mulish, Inter, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif !important;
+}
+
+.empty-balance-input {
+  margin: 10px 0 10px 0;
+}
