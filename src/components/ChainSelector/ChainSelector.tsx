@@ -14,7 +14,6 @@ export interface Chain {
   rpcEndpoints: string[];
   definitions: OverrideBundleDefinition;
   decimals: number; 
-
 }
 
 interface ChainSelectorProps {
@@ -27,9 +26,8 @@ interface ChainSelectorProps {
 export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, setSelectedChain, selectedRpc, setSelectedRpc }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const [tempRpc, setTempRpc] = useState<string>(selectedRpc);  // New state for temporary RPC URL
-  const [selectedChainName, setSelectedChainName] = useState<string>(''); // New state for selected chain name
-
+  const [tempRpc, setTempRpc] = useState<string>(selectedRpc || 'ws://localhost:9944');  
+  const [selectedChainName, setSelectedChainName] = useState<string>('');
 
    // Whenever selectedChain is updated, update the tempRpc state
    useEffect(() => {
@@ -67,7 +65,7 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
         console.error('No matching chain found for the selected RPC.');
         return;
       }
-  
+
       // Check if chainResult is defined before calling toString()
       const chainName = chainResult ? chainResult.toString() : 'Unknown';
   
@@ -94,15 +92,12 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
 
   };
   
-  
-
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setOpen(false);
     }
   }, []);
   
-
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
   
@@ -111,12 +106,10 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
     };
   }, [handleClickOutside]);
   
-  
-
   return (
     <div ref={menuRef}>
       <button onClick={() => setOpen(!open)} className="network-button block w-full text-left text-black p-8">
-         {selectedChain?.name  || 'Select Network'}
+        {selectedChain?.name || 'Select Network'}
       </button>
       {open && (
         <div className="chains absolute bg-white rounded shadow-md text-black">
@@ -126,21 +119,17 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
               <div>
                 {chain.rpcEndpoints.map((rpc, rpcIndex) => (
                   <div key={`${chain.name}-${rpc}`} className="chain-rpc flex items-center">
-                  <input
+                    <input
                       key={`${chain.name}-${rpc}`}
                       type="radio"
                       className="mr-2"
                       value={rpc}
                       checked={rpc === tempRpc} 
                       onChange={(e) => {
-
-                      setTempRpc(e.target.value);
-                      setSelectedChainName(chain.name);
+                        setTempRpc(e.target.value);
+                        setSelectedChainName(chain.name);
                       }}
-                   
-                    
                     />
-
                     <label htmlFor={`chain${chain.ss58Format}`} className="rpc-name ml-2 text-black">
                       {rpc}
                     </label>
@@ -149,20 +138,36 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
               </div>
             </details>
           ))}
+          {/* Dropdown category for development */}
+          <details>
+            <summary className="font-semibold text-black text-sm">Development</summary>
+            <div className="chain-rpc flex items-center">
+              <label htmlFor="customRpcUrl" className="rpc-name ml-2 text-black">Custom RPC URL:</label>
+              <input
+                id="customRpcUrl"
+                type="text"
+                value={tempRpc}
+                onChange={(e) => {
+                  setTempRpc(e.target.value);
+                  setSelectedChainName('Custom');
+                }}
+              />
+            </div>
+          </details>
           <button
             onClick={() => {
-              handleRpcSelection(tempRpc);  
+              handleRpcSelection(tempRpc);
               setOpen(false);
             }}
             className="select-button block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
           >
-            Select {selectedChainName}         
+            Select {selectedChainName}
           </button>
         </div>
       )}
     </div>
   );
-
-    };
+  
+};
 
 

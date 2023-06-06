@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faFileAlt, faCode, faWallet, faCog, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faFileAlt, faCode, faWallet, faCog, faUsers, faTachometerAlt} from '@fortawesome/free-solid-svg-icons';
 import { List, ListItem, ListItemIcon, ListItemText, Collapse, Box } from '@mui/material';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -21,7 +21,15 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar-container">
+
+
       <List>
+      <ListItem button className={isActive('/wallet/accounts') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/wallet/accounts">
+          <ListItemIcon>
+            <FontAwesomeIcon icon={faWallet} style={{ marginRight: '5px' }} />
+          </ListItemIcon>
+          <ListItemText primary="Accounts" />
+        </ListItem>
         <ListItem button onClick={handleClick}>
           <ListItemIcon>
             <FontAwesomeIcon icon={faUsers} style={{ marginRight: '5px' }} />
@@ -33,7 +41,7 @@ const Sidebar = () => {
           <List component="div" disablePadding style={{ paddingLeft: '1.5em' }}>  
             <ListItem button className={isActive('/organisations/dashboard') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/organisations/dashboard">
               <ListItemIcon>
-                <FontAwesomeIcon icon={faFileAlt} style={{ marginRight: '5px' }} /> 
+                <FontAwesomeIcon icon={faTachometerAlt} style={{ marginRight: '5px' }} /> 
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItem>
@@ -58,12 +66,7 @@ const Sidebar = () => {
           </List>
         </Collapse>
         
-        <ListItem button className={isActive('/wallet/accounts') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/wallet/accounts">
-          <ListItemIcon>
-            <FontAwesomeIcon icon={faWallet} style={{ marginRight: '5px' }} />
-          </ListItemIcon>
-          <ListItemText primary="Accounts" />
-        </ListItem>
+        
 
         <ListItem button className={isActive('/settings') ? 'active-link sidebar-button' : 'sidebar-button'} component={Link} to="/settings">
           <ListItemIcon>

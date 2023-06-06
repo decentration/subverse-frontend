@@ -101,8 +101,11 @@ const AccountsTable: React.FC<AccountsTableProps> = ({ showEmptyBalances }) => {
       const beforeDecimal = numString.slice(0, decimalPlace) || '0'; // Add a zero if there's nothing before the decimal
       const afterDecimal = numString.slice(decimalPlace);
     
+      // Convert the part before the decimal to a number, then back to a string with comma separators
+      const beforeDecimalWithCommas = Number(beforeDecimal).toLocaleString();
+    
       // Return the number string with inserted decimal
-      return beforeDecimal + '.' + afterDecimal;
+      return beforeDecimalWithCommas + '.' + afterDecimal;
     }
     
     

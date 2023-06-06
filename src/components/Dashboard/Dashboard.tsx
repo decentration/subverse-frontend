@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
-
 const Summary: React.FC<{ title: string; value: number }> = ({ title, value }) => (
   <div className="summary-item">
     <h3>{title}</h3>
@@ -55,6 +54,7 @@ const Dashboard: React.FC = () => {
         <DashboardButton icon="fas fa-plus" label="Add Member" />
         <DashboardButton icon="fas fa-plus" label="Propose" />
       </div>
+
       <Section>
         
       </Section>
