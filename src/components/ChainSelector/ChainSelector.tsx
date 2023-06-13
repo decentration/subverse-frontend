@@ -53,7 +53,7 @@ export const ChainSelector: React.FC<ChainSelectorProps> = ({ selectedChain, set
   
     try {
       // Set custom autoconnect delay to 5 seconds (5000 ms)
-      const provider = new WsProvider(rpc, 5000);
+      const provider = new WsProvider(rpcEndpoint);
       const api = await ApiPromise.create({ 
         provider, 
       });
