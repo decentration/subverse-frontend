@@ -79,7 +79,7 @@ const definitions: OverrideBundleDefinition = {
             Standard: 'Vec<u8>'
           }
         },
-        SupersigId: 'u132'
+        SupersigId: 'u128'
       }
     }
   ]
